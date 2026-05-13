@@ -20,13 +20,14 @@ function App(){
   // check initial authentication
   useEffect(() => {
     dispatch(checkAuth());
-  }, [dispatch]);
+  }, [dispatch]); 
   
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">
       <span className="loading loading-spinner loading-lg"></span>
     </div>;
   }
+ 
 
   return(
   <>

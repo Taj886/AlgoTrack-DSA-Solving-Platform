@@ -28,7 +28,12 @@ const register = async (req, res)=>{
                 role: user.role
             }
 
-      res.cookie('token',token,{maxAge:60*60*1000});
+      res.cookie('token', token, {
+        maxAge: 60*60*1000,
+        httpOnly: true,
+        secure: false,
+        sameSite: 'Lax'
+      });
       res.status(201).json({
         user: reply,
         message:"Logged in successfully"
@@ -71,7 +76,12 @@ const register = async (req, res)=>{
             }
 
       const token = jwt.sign({_id:user._id, emailId:emailId, role:user.role},process.env.JWT_KEY,{expiresIn:60*60});
-      res.cookie('token',token,{maxAge:60*60*1000});
+      res.cookie('token', token, {
+        maxAge: 60*60*1000,
+        httpOnly: true,
+        secure: false,
+        sameSite: 'Lax'
+      });
       res.status(201).json({
         user: reply,
         message:"Logged in successfully"
@@ -88,22 +98,16 @@ const register = async (req, res)=>{
     const logout = async(req,res)=>{
 
         try{
-
-            const {token} = req.cookies;
-            const payload = jwt.decode(token);
-
-            await redisClient.set(`token:${token}`, 'Blocked');
-            await redisClient.expireAt(`token:${token}`,payload.exp);
-
-
-            res.cookie("token",null,{expires: new Date(Date.now())});
-            res.send("Logged out seccessfully");
-
-
+            res.cookie('token', null, {
+                expires: new Date(Date.now()),
+                httpOnly: true,
+                secure: false,
+                sameSite: 'Lax'
+            });
+            res.status(200).json({message: "Logged out successfully"});
         }
         catch(err){
-
-            res.status(503).send("Error:" +err);
+            res.status(500).json({message: "Error logging out: " + err});
         }
     }
  
@@ -121,7 +125,12 @@ const register = async (req, res)=>{
 
        const user = await User.create(req.body);
       const token = jwt.sign({_id:user._id, emailId:emailId, role:user.role},process.env.JWT_KEY,{expiresIn:60*60});
-      res.cookie('token',token,{maxAge:60*60*1000});
+      res.cookie('token', token, {
+        maxAge: 60*60*1000,
+        httpOnly: true,
+        secure: false,
+        sameSite: 'Lax'
+      });
       res.status(201).send("admin registerd succesfully");
 
       // await User.create(req.body);

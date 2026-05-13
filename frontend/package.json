@@ -15,6 +15,7 @@
     "@reduxjs/toolkit": "^2.9.2",
     "@tailwindcss/vite": "^4.1.16",
     "axios": "^1.13.1",
+    "baseline-browser-mapping": "^2.10.29",
     "daisyui": "^5.3.10",
     "lucide-react": "^0.552.0",
     "react": "^19.1.1",

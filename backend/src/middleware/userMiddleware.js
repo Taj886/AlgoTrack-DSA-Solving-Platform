@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const User = require('../models/user');
-const redisClient =  require("../config/redis")
 
 
 const userMiddleware = async (req,res,next)=> {
@@ -25,19 +24,13 @@ const userMiddleware = async (req,res,next)=> {
             throw new Error("user doesn't exist");
         }
 
-    // Note: key format should match how tokens are stored (no space after colon)
-    const IsBlocked = await redisClient.exists(`token:${token}`);
-        if(IsBlocked) {
-            throw new Error("invalid token");
-        }
-
         req.result = result;
 
         next();
 
      }
      catch(err){
-        res.status(401).send("Error:"+ err.message)
+        res.status(401).json({message: "Error:" + err.message})
      }
 }
 

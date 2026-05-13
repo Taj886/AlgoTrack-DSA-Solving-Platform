@@ -11,8 +11,8 @@ const validate = (data)=>{
     if(!validator.isEmail(data.emailId))
         throw new Error("Invalid Email");
 
-    if(!validator.isStrongPassword(data.password))
-        throw new Error("week password");
+    if(data.password.length < 8)
+        throw new Error("Password must be at least 8 characters");
 }
 
 module.exports = validate;
